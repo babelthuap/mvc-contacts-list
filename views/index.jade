@@ -1,23 +1,15 @@
 doctype html
 html(lang="en")
   head
-    title Jade
+    title Homepage
     link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.min.css")
-    link(href='css/style.css' rel='stylesheet')
   body
     .container
-      h1 Contacts List
-      em by Nicholas Neumann-Chun
+      h1 Homepage
+      em
+        a(href='https://babelthuap.github.io/') Nicholas Neumann-Chun
       hr
-      button#retrieve Retrieve List
-      table.table.table-striped#list
-        tbody
-          tr
-            th Name
-            th Email
-            th Phone
-            th Twitter
-            th Group
-    script(src='bower_components/jquery/dist/jquery.min.js')
-    script(src='bower_components/blueimp-md5/js/md5.min.js')
-    script(src='js/main.js')
+      h4
+        ul
+          li
+            a(href="/contacts") Contacts List App

@@ -7,11 +7,11 @@ var Contacts = require('../models/contact'); // our Model
 
 // responds with the the array of contacts
 router.get('/', function(req, res) {
-  Contacts.list(function(err, contact) {
+  Contacts.list(function(err, contacts) {
     if (err) {
       return res.status(400).send(err);
     } else {
-      res.send(contact);
+      res.render('contacts', {contacts: contacts});
     }
   });
 });
@@ -30,8 +30,8 @@ router.post('/', function(req, res) {
 });
 
 // expect the md5 hash of the concatenated data from the contact to delete
-// e.g. md5('Nicholasnicholas@gmail.com555-555-5555Babelthuapfamily')
-//      === '19da48bbb8fd16367fe9793bb0558ee0'
+// e.g. md5('Nicholasnicholas@gmail.com555-555-5555@Babelthuapfamily')
+//      === 'cb871a034926878f8fe7e47e2e982896'
 router.delete('/', function(req, res) {
   var hash = req.body.hash;
   Contacts.remove(hash, function(err) {
