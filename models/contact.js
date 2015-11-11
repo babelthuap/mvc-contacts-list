@@ -9,7 +9,10 @@ var db = 'db/contacts.json';
 // to be used as:  var hashes = contacts.map(hashContact);
 function hashContact(contact) {
   var keys = Object.keys(contact);
-  var data = keys.reduce((tot, key) => (tot + contact[key]), '');
+  var data = keys.reduce((tot, key) => (tot + '%' + contact[key]), '');
+
+  console.log('data to hash:', data);
+
   return md5(data);
 }
 

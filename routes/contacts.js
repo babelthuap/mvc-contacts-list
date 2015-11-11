@@ -30,8 +30,8 @@ router.post('/', function(req, res) {
 });
 
 // expect the md5 hash of the concatenated data from the contact to delete
-// e.g. md5('Nicholasnicholas@gmail.com555-555-5555@Babelthuapfamily')
-//      === 'cb871a034926878f8fe7e47e2e982896'
+// e.g. md5('%Nicholas%nicholas@gmail.com%555-555-5555%@Babelthuap%family')
+//      === '7ded8a1e66b36af17ef260abc3ed71ff'
 router.delete('/', function(req, res) {
   var hash = req.body.hash;
   Contacts.remove(hash, function(err) {

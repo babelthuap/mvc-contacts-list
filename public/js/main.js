@@ -22,19 +22,27 @@ $(document).ready(function() {
 
   function add() {
     let info = {};
-    ['name', 'email', 'phone', 'twitter', 'group'].forEach(field => {
+    ['Name', 'Email', 'Phone', 'Twitter', 'Group'].forEach(field => {
       info[field] = $(`input#${field}`).val();
     });
 
-    console.log(JSON.stringify({contact: info}));
-
-    // $.post('/contacts', {contact: info});
+    $.post('/contacts', {contact: info})
+    .done(() => window.location.reload())
+    .fail(err => console.log("ERROR ADDING CONTACT:", err));
   }
 
   function remove() {
     let $contact = $(this).closest('tr');
     console.log('remove!', $contact);
     console.log('hash:', hashContact($contact));
+
+    $.ajax({
+      method: 'DELETE',
+      url: '/contacts',
+      data: {hash: hashContact($contact)}
+    })
+    .done(() => window.location.reload())
+    .fail(err => console.log("ERROR DELETING CONTACT:", err));
   }
 
   function edit() {
@@ -48,7 +56,7 @@ $(document).ready(function() {
     let numFields = $tds.length - 1;
     let data = '';
     for (let i = 0; i < numFields; i++) {
-      data += $tds[i].innerHTML;
+      data += '%' + $tds[i].innerHTML;
     }
     console.log('data:', data); // DEBUG
     return md5(data);

@@ -31,7 +31,7 @@ test(function(err, data){
 /*
 
 seed db:
-[{"name":"Nicholas","email":"nicholas@gmail.com","phone":"555-555-5555","twitter":"Babelthuap","group":"family"},{"name":"Benjamin","email":"gorrel@gmail.com","phone":"222-333-4444","twitter":"@dragon","group":"family"}]
+[{"name":"Nicholas","email":"nicholas@gmail.com","phone":"555-555-5555","twitter":"@Babelthuap","group":"family"},{"name":"Mom","email":"mom@home.org","phone":"111-222-7777","twitter":"@madre","group":"family"},{"name":"Benjamin","email":"gorrel@gmail.com","phone":"222-333-4444","twitter":"@dragon","group":"family"}]
 
 can POST to http://localhost:3000/contacts successfully with a body of
 {

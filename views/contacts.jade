@@ -6,6 +6,7 @@ html(lang="en")
     link(rel="stylesheet", href="bower_components/font-awesome/css/font-awesome.min.css")
     link(href='css/style.css' rel='stylesheet')
   body
+    - var fields = ["Name", "Email", "Phone", "Twitter", "Group"]
     .container
       .row
         center
@@ -17,15 +18,15 @@ html(lang="en")
       .row
         center
           p#new
-            each _, prop in contacts[0]
-              input(id= prop, placeholder= prop)
+            each field in fields
+              input(id= field, placeholder= field)
           button.btn.btn-primary#add Add New Contact
       hr
       .row
         table.table.table-striped#list
           thead
             tr
-              each field in ["Name", "Email", "Phone", "Twitter", "Group"]
+              each field in fields
                 th= field
               th
                 button.btn-danger Remove All
