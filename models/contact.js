@@ -19,6 +19,9 @@ Contacts.list = function(cb) {
       if (data) {
         var contacts = JSON.parse(data);
       }
+
+      contacts = contacts.concat( contacts.map(hashContact) );
+
       cb(null, contacts || []);
     }
   });
@@ -59,19 +62,13 @@ Contacts.remove = function(hash, cb) {
   });
 }
 
-Contacts.update = function(contact, cb) {
+Contacts.update = function(hash, contact, cb) {
   console.log(`\nto update: ${contact}\n`); // DEBUG
-  fs.readFile('db/contacts.json', function(err, data) {
-    if (err) {
-      cb(err);
+  Contacts.remove(hash, function(err) {
+    if (!err) {
+      Contacts.add(contact, cb);
     } else {
-      var contacts = JSON.parse(data);
-
-      var tasks = contacts.map(item => item.task);
-      var i = tasks.indexOf(contact);
-      contacts[i].done = !contacts[i].done;
-
-      fs.writeFile('db/contacts.json', JSON.stringify(contacts), cb);
+      cb(err);
     }
   });
 }

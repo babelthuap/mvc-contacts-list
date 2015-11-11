@@ -50,7 +50,19 @@ so DELETE it with
   "hash": "46af1d9c37913b9f97c7c5b4f56f1d55"
 }
 
+can update (PUT) with, say
+{
+  "hash": "46af1d9c37913b9f97c7c5b4f56f1d55",
+  "contact": {
+    "name": "Benjamin",
+    "email": "gorrel@gmail.com",
+    "phone": "222-333-4444",
+    "twitter": "@dragon",
+    "group": "HE'S MY BROTHER"
+  }
+}
 
+(which then has a hash of 5fa0c0dad7673a873def7c6426ed10de)
 
 
 

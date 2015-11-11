@@ -44,8 +44,9 @@ router.delete('/', function(req, res) {
 });
 
 router.put('/', function(req, res) {
+  var hash = req.body.hash;
   var contact = req.body.contact;
-  Contacts.update(contact, function(err) {
+  Contacts.update(hash, contact, function(err) {
     if (err) {
       return res.status(400).send(err);
     } else {
