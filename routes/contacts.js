@@ -43,6 +43,8 @@ router.delete('/', function(req, res) {
   });
 });
 
+// expect hash of contact to update along with new version of contact
+// in {"hash": <hash>, "contact": <contact>}
 router.put('/', function(req, res) {
   var hash = req.body.hash;
   var contact = req.body.contact;

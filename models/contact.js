@@ -19,9 +19,6 @@ Contacts.list = function(cb) {
       if (data) {
         var contacts = JSON.parse(data);
       }
-
-      contacts = contacts.concat( contacts.map(hashContact) );
-
       cb(null, contacts || []);
     }
   });
