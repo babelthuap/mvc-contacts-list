@@ -2,7 +2,9 @@
 
 var fs = require('fs');
 var md5 = require('md5');
+
 var Contacts = {};
+var db = 'db/contacts.json';
 
 // to be used as:  var hashes = contacts.map(hashContact);
 function hashContact(contact) {
@@ -12,49 +14,35 @@ function hashContact(contact) {
 }
 
 Contacts.list = function(cb) {
-  fs.readFile('db/contacts.json', function(err, data) {
-    if (err) {
-      cb(err);
-    } else {
-      if (data) {
-        var contacts = JSON.parse(data);
-      }
-      cb(null, contacts || []);
-    }
+  fs.readFile(db, function(err, data) {
+    if (err) return cb(err);
+    var contacts = JSON.parse(data);
+    cb(null, contacts || []);
   });
 }
 
 Contacts.add = function(contact, cb) {
-  console.log(`\to add: ${contact}\n`); // DEBUG
-  fs.readFile('db/contacts.json', function(err, data) {
-    if (err) {
-      cb(err);
-    } else {
-      var contacts = JSON.parse(data);
-      contacts.push(contact);
-      fs.writeFile('db/contacts.json', JSON.stringify(contacts), cb);
-    }
+  console.log(`\nto add: ${contact}\n`); // DEBUG
+
+  Contacts.list(function(err, contacts) {
+    contacts.push(contact);
+    fs.writeFile(db, JSON.stringify(contacts), cb);
   });
 }
 
 Contacts.remove = function(hash, cb) {
   console.log(`\nremoving: ${hash}\n`); // DEBUG
-  fs.readFile('db/contacts.json', function(err, data) {
-    if (err) {
-      cb(err);
+  Contacts.list(function(err, contacts) {
+
+    // find the hash in hashes (a list of the contacts' hashes) and delete it
+    var hashes = contacts.map(hashContact);
+    var i = hashes.indexOf(hash);
+
+    if (i !== -1) {
+      contacts.splice(i, 1);
+      fs.writeFile(db, JSON.stringify(contacts), cb);
     } else {
-      var contacts = JSON.parse(data);
-
-      // find the hash in contacts and delete it
-      var hashes = contacts.map(hashContact);
-      var i = hashes.indexOf(hash);
-
-      if (i !== -1) {
-        contacts.splice(i, 1);
-        fs.writeFile('db/contacts.json', JSON.stringify(contacts), cb);
-      } else {
-        cb('contact not present');
-      }
+      cb('contact not present');
     }
   });
 }

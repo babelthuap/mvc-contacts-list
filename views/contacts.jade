@@ -7,27 +7,38 @@ html(lang="en")
     link(href='css/style.css' rel='stylesheet')
   body
     .container
-      h1 Contacts List
-      em
-        | by 
-        a(href='https://babelthuap.github.io/') Nicholas Neumann-Chun
+      .row
+        center
+          h1 Contacts List
+          em
+            | by 
+            a(href='https://babelthuap.github.io/') Nicholas Neumann-Chun
       hr
-      button#add Add New Contact
-      table.table.table-striped#list
-        thead
-          tr
+      .row
+        center
+          p#new
             each _, prop in contacts[0]
-              th= prop
-        tbody
-          each contact in contacts
+              input(id= prop, placeholder= prop)
+          button.btn.btn-primary#add Add New Contact
+      hr
+      .row
+        table.table.table-striped#list
+          thead
             tr
-              each val in contact
-                td= val
-              td
-                button.edit
-                  i.fa.fa-pencil-square-o
-                button.remove
-                  i.fa.fa-times
+              each field in ["Name", "Email", "Phone", "Twitter", "Group"]
+                th= field
+              th
+                button.btn-danger Remove All
+          tbody
+            each contact in contacts
+              tr
+                each val in contact
+                  td= val
+                td
+                  button.edit
+                    i.fa.fa-pencil-square-o
+                  button.remove
+                    i.fa.fa-times
     script(src='bower_components/jquery/dist/jquery.min.js')
     script(src='bower_components/blueimp-md5/js/md5.min.js')
     script(src='js/main.js')

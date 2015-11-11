@@ -4,6 +4,7 @@ $(document).ready(function() {
 
   let $list = $('#list');
 
+  $('#add').click(add);
   $list.on('click', '.remove', remove);
   $list.on('click', '.edit', edit);
 
@@ -19,6 +20,17 @@ $(document).ready(function() {
   //   return $row;
   // }
 
+  function add() {
+    let info = {};
+    ['name', 'email', 'phone', 'twitter', 'group'].forEach(field => {
+      info[field] = $(`input#${field}`).val();
+    });
+
+    console.log(JSON.stringify({contact: info}));
+
+    // $.post('/contacts', {contact: info});
+  }
+
   function remove() {
     let $contact = $(this).closest('tr');
     console.log('remove!', $contact);
@@ -28,6 +40,7 @@ $(document).ready(function() {
   function edit() {
     let $contact = $(this).closest('tr');
     console.log('edit!', $contact);
+    console.log('hash:', hashContact($contact));
   }
 
   function hashContact($contact) {
@@ -37,7 +50,7 @@ $(document).ready(function() {
     for (let i = 0; i < numFields; i++) {
       data += $tds[i].innerHTML;
     }
-    console.log('data:', data);
+    console.log('data:', data); // DEBUG
     return md5(data);
   }
 
