@@ -2,52 +2,54 @@
 
 var express = require('express');
 var router = express.Router();
-var Todo = require('../models/contact'); // our Model
+var Contacts = require('../models/contact'); // our Model
 
 
-// responds with the the array of todos
+// responds with the the array of contacts
 router.get('/', function(req, res) {
-  Todo.find(function(err, todos) {
+  Contacts.list(function(err, contact) {
     if (err) {
       return res.status(400).send(err);
     } else {
-      res.send(todos);
+      res.send(contact);
     }
   });
 });
 
-// accepts a req.body with a key "task", & adds that task to the list
+// expect req.body.contact to consist of an object with keys
+// name, email, phone, twitter, group
 router.post('/', function(req, res) {
-  var task = req.body.task;
-  Todo.add(task, function(err) {
+  var contact = req.body.contact;
+  Contacts.add(contact, function(err) {
     if (err) {
       return res.status(400).send(err);
     } else {
-      res.send('Todo created.');
+      res.send('Contact created.');
     }
   });
 });
 
-// accepts a req.body that has a key "task", & toggles that task
-router.put('/', function(req, res) {
-  var toToggle = req.body.task;
-  Todo.toggle(toToggle, function(err) {
-    if (err) {
-      return res.status(400).send(err);
-    } else {
-      res.send('Task toggled.');
-    }
-  });
-});
-
-// accepts a req.body that has a key "task", & removes that task
+// expect the md5 hash of the concatenated data from the contact to delete
+// e.g. md5('Nicholasnicholas@gmail.com555-555-5555Babelthuapfamily')
+//      === '19da48bbb8fd16367fe9793bb0558ee0'
 router.delete('/', function(req, res) {
-  var toRemove = req.body.task;
-  Todo.remove(toRemove, function(err) {
+  var hash = req.body.hash;
+  Contacts.remove(hash, function(err) {
     if (err) {
       return res.status(400).send(err);
     } else {
-      res.send('Task removed.');
+      res.send('Contact removed.');
+    }
+  });
+});
+
+router.put('/', function(req, res) {
+  var contact = req.body.contact;
+  Contacts.update(contact, function(err) {
+    if (err) {
+      return res.status(400).send(err);
+    } else {
+      res.send('Contact updated.');
     }
   });
 });
