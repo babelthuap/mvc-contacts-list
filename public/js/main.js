@@ -67,22 +67,23 @@ $(document).ready(function() {
 
 
   function edit() {
-    $('#update').off('click');
+    $('#commit').off('click');
 
     $editing = $(this).closest('tr');
-    $('#editName').text( $editing.find(':first-child').text() );
+    $('#editName').text( 'Edit ' + $editing.find(':first-child').text() );
 
+    // set the modal's inital field values
     KEYS.forEach((key, i) => {
       let current = $editing.find(`td:nth-of-type(${i + 1})`).text();
       $(`#modal${key}`).val(current);
     });
 
-    $('#update').on('click', update);
+    $('#commit').on('click', update);
   }
 
 
   function update() {
-    let newInfo = updatedInfo();
+    let newInfo = contactInfoFromModal();
 
     $.ajax({
       method: 'PUT',
@@ -91,18 +92,16 @@ $(document).ready(function() {
     })
     .done(() => {
       // update locally
-
       $editing.find('td:not(:last-child)').each((i, field) => {
         let newValue = newInfo[ KEYS[i] ];
         $(field).text(newValue);
       });
-
     })
     .fail(err => console.log("ERROR UPDATING CONTACT:", err));
   }
 
 
-  function updatedInfo() {
+  function contactInfoFromModal() {
     let contact = {};
     KEYS.forEach(key => {
       contact[key] = $('#editingForm').find(`#modal${key}`).val();

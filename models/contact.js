@@ -6,13 +6,9 @@ var md5 = require('md5');
 var Contacts = {};
 var db = 'db/contacts.json';
 
-// to be used as:  var hashes = contacts.map(hashContact);
 function hashContact(contact) {
   var keys = Object.keys(contact);
   var data = keys.reduce((tot, key) => (tot + '%' + contact[key]), '');
-
-  console.log('data to hash:', data);
-
   return md5(data);
 }
 
@@ -25,8 +21,6 @@ Contacts.list = function(cb) {
 }
 
 Contacts.add = function(contact, cb) {
-  console.log(`\nto add: ${contact}\n`); // DEBUG
-
   Contacts.list(function(err, contacts) {
     contacts.push(contact);
     fs.writeFile(db, JSON.stringify(contacts), cb);
@@ -34,9 +28,7 @@ Contacts.add = function(contact, cb) {
 }
 
 Contacts.remove = function(hash, cb) {
-  console.log(`\nremoving: ${hash}\n`); // DEBUG
   Contacts.list(function(err, contacts) {
-
     // find the hash in hashes (a list of the contacts' hashes) and delete it
     var hashes = contacts.map(hashContact);
     var i = hashes.indexOf(hash);
@@ -51,7 +43,6 @@ Contacts.remove = function(hash, cb) {
 }
 
 Contacts.update = function(hash, contact, cb) {
-  console.log(`\nto update: ${contact}\n`); // DEBUG
   Contacts.remove(hash, function(err) {
     if (!err) {
       Contacts.add(contact, cb);

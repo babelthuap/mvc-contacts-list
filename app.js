@@ -18,11 +18,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// app.use(function(req, res, next) {
-//   res.set({    
-//   })
-//   next();
-// })
 
 // ROUTES
 app.use('/', require('./routes/index'));
