@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
 
-  let FIELDS = ['Name', 'Email', 'Phone', 'Twitter', 'Group'];
+  const FIELDS = ['Name', 'Email', 'Phone', 'Twitter', 'Group'];
   let $list = $('#list');
   let $editing;
 
@@ -21,12 +21,12 @@ $(document).ready(function() {
   function add() {
     if ($('#Name').val()) {
       let info = {};
-      fields.forEach(field => {
+      FIELDS.forEach(field => {
         info[field] = $(`input#${field}`).val();
       });
 
       $.post('/contacts', {contact: info})
-      .done(addRow(info))
+      .done(() => $list.append(addRow(info)))
       .fail(err => console.log("ERROR ADDING CONTACT:", err));
     }
   }
@@ -46,7 +46,7 @@ $(document).ready(function() {
       .append( $('<i>').addClass("fa fa-times") );
     $row.append( $('<td>').append([$edit, $remove]) );
 
-    $list.append($row);
+    return $row;
   }
 
   function remove() {
@@ -64,8 +64,7 @@ $(document).ready(function() {
   }
 
   function edit() {
-    let $update = $('#update');
-    $update.off('click');
+    $('#update').off('click');
 
     $editing = $(this).closest('tr');
     $('#editName').text( $editing.find(':first-child').text() );
@@ -75,10 +74,29 @@ $(document).ready(function() {
       $(`#modal${field}`).val(current);
     });
 
-    $update;
+    $('#update').on('click', update);
+  }
 
+  function update() {
+    console.log('update ' + $editing.find(':first-child').text());
 
+    $.ajax({
+      method: 'PUT',
+      url: '/contacts',
+      data: {hash: hashContact($editing), contact: updatedInfo()}
+    })
+    .done(() => {
+      // update locally
+    })
+    .fail(err => console.log("ERROR UPDATING CONTACT:", err));
+  }
 
+  function updatedInfo() {
+    let contact = {};
+    FIELDS.forEach(field => {
+      contact[field] = $('#editingForm').find(`#modal${field}`).val();
+    });
+    return contact;
   }
 
   function hashContact($contact) {
