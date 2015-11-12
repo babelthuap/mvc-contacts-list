@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
 
-  const FIELDS = ['Name', 'Email', 'Phone', 'Twitter', 'Group'];
+  const KEYS = ['Name', 'Email', 'Phone', 'Twitter', 'Group'];
   let $list = $('#list');
   let $editing;
 
@@ -21,9 +21,10 @@ $(document).ready(function() {
   function add() {
     if ($('#Name').val()) {
       let info = {};
-      FIELDS.forEach(field => {
-        info[field] = $(`input#${field}`).val();
+      KEYS.forEach(key => {
+        info[key] = $(`input#${key}`).val();
       });
+      $('#new input').val('');
 
       $.post('/contacts', {contact: info})
       .done(() => $list.append(addRow(info)))
@@ -31,10 +32,10 @@ $(document).ready(function() {
     }
   }
 
+
   function addRow(info) {
-    let keys = Object.keys(info);
     let $row = $('<tr>');
-    keys.forEach(key => {
+    KEYS.forEach(key => {
       $row.append( $('<td>').text(info[key]) );
     });
 
@@ -48,6 +49,7 @@ $(document).ready(function() {
 
     return $row;
   }
+
 
   function remove() {
     let $contact = $(this).closest('tr');
@@ -63,41 +65,51 @@ $(document).ready(function() {
     .fail(err => console.log("ERROR DELETING CONTACT:", err));
   }
 
+
   function edit() {
     $('#update').off('click');
 
     $editing = $(this).closest('tr');
     $('#editName').text( $editing.find(':first-child').text() );
 
-    FIELDS.forEach((field, i) => {
+    KEYS.forEach((key, i) => {
       let current = $editing.find(`td:nth-of-type(${i + 1})`).text();
-      $(`#modal${field}`).val(current);
+      $(`#modal${key}`).val(current);
     });
 
     $('#update').on('click', update);
   }
 
+
   function update() {
-    console.log('update ' + $editing.find(':first-child').text());
+    let newInfo = updatedInfo();
 
     $.ajax({
       method: 'PUT',
       url: '/contacts',
-      data: {hash: hashContact($editing), contact: updatedInfo()}
+      data: {hash: hashContact($editing), contact: newInfo}
     })
     .done(() => {
       // update locally
+
+      $editing.find('td:not(:last-child)').each((i, field) => {
+        let newValue = newInfo[ KEYS[i] ];
+        $(field).text(newValue);
+      });
+
     })
     .fail(err => console.log("ERROR UPDATING CONTACT:", err));
   }
 
+
   function updatedInfo() {
     let contact = {};
-    FIELDS.forEach(field => {
-      contact[field] = $('#editingForm').find(`#modal${field}`).val();
+    KEYS.forEach(key => {
+      contact[key] = $('#editingForm').find(`#modal${key}`).val();
     });
     return contact;
   }
+
 
   function hashContact($contact) {
     let data = '';
