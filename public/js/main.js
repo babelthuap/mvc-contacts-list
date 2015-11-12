@@ -134,16 +134,23 @@ $(document).ready(function() {
     return md5(data);
   }
 
+
   function sort() {
     if (contacts) {
-      $(this).append($('#caret'));
+      if ($(this).find('#caret').length > 0) {
+        $('#caret').toggleClass('fa-caret-down').toggleClass('fa-caret-up');
+      } else {
+        $('#caret').removeClass('fa-caret-down').addClass('fa-caret-up');
+        $(this).append($('#caret'));
+      }
 
       sortBy = $(this).text();
+      let increasing = $('#caret').hasClass('fa-caret-up');
       contacts.sort((a, b) => {
         if (a[sortBy] === b[sortBy]) { // will happen when sorting by Group
-          return a.Name > b.Name;
+          return a.Name > b.Name;      // -> sort by Name within each Group
         } else {
-          return a[sortBy] > b[sortBy];
+          return increasing ? a[sortBy] > b[sortBy] : a[sortBy] < b[sortBy];
         }
       });
 
