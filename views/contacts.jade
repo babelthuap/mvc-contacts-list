@@ -16,7 +16,9 @@ html(lang="en")
             a(href='https://babelthuap.github.io/') Nicholas Neumann-Chun
       hr
       .row
-        center: button.btn.btn-primary(data-toggle='modal', data-target='#myModal')#add Add Contact
+        center
+          button.btn.btn-primary(data-toggle='modal', data-target='#myModal')#add Add Contact
+          span &nbsp; or click on a column header to sort by that column.
       hr
       .row
         table.table.table-striped#list
@@ -33,6 +35,9 @@ html(lang="en")
                 td
                   button.edit(data-toggle='modal', data-target='#myModal'): i.fa.fa-pencil-square-o
                   button.remove: i.fa.fa-times
+      //- hidden caret
+      .hidden
+        i.fa.fa-caret-up#caret
       //- Modal
       #myModal.modal.fade(role='dialog')
         .modal-dialog

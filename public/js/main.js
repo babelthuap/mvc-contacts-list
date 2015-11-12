@@ -4,18 +4,23 @@ $(document).ready(function() {
 
   const KEYS = ['Name', 'Email', 'Phone', 'Twitter', 'Group'];
   let $list = $('#list');
-  let $editing;
+  let $editing, contacts, sortBy;
+
+  retrieveContacts();
 
   $('#add').click(getNewContact);
-  $('#new input').on('keypress', e => {
-    if (e.keyCode === 13) {
-      add();
-      $('#Name').focus();
-    }
-  })
+  $('th:not(:last-child)').click(sort);
 
   $list.on('click', '.remove', remove);
   $list.on('click', '.edit', edit);
+
+
+  function retrieveContacts() {
+    contacts = undefined;
+    $.get('/contacts/list')
+    .done((data) => contacts = data)
+    .fail(err => console.log('ERROR RETRIEVING LIST:', err));
+  }
 
 
   function getNewContact() {
@@ -35,13 +40,16 @@ $(document).ready(function() {
       $('#new input').val('');
 
       $.post('/contacts', {contact: info})
-      .done(() => $list.append(addRow(info)))
+      .done(() => {
+        $list.append(makeRow(info));
+        retrieveContacts();
+      })
       .fail(err => console.log("ERROR ADDING CONTACT:", err));
     }
   }
 
 
-  function addRow(info) {
+  function makeRow(info) {
     let $row = $('<tr>');
     KEYS.forEach(key => {
       $row.append( $('<td>').text(info[key]) );
@@ -67,7 +75,10 @@ $(document).ready(function() {
       url: '/contacts',
       data: {hash: hashContact($contact)}
     })
-    .done(() => $contact.remove())
+    .done(() => {
+      $contact.remove();
+      retrieveContacts();
+    })
     .fail(err => console.log("ERROR DELETING CONTACT:", err));
   }
 
@@ -95,6 +106,7 @@ $(document).ready(function() {
       data: {hash: hashContact($editing), contact: newInfo}
     })
     .done(() => {
+      retrieveContacts();
       // update locally
       $editing.find('td:not(:last-child)').each((i, field) => {
         let newValue = newInfo[ KEYS[i] ];
@@ -122,4 +134,46 @@ $(document).ready(function() {
     return md5(data);
   }
 
+  function sort() {
+    if (contacts) {
+      $(this).append($('#caret'));
+
+      sortBy = $(this).text();
+      contacts.sort((a, b) => {
+        if (a[sortBy] === b[sortBy]) { // will happen when sorting by Group
+          return a.Name > b.Name;
+        } else {
+          return a[sortBy] > b[sortBy];
+        }
+      });
+
+      let newList = [];
+      contacts.forEach(contact => newList.push(makeRow(contact)));
+
+      $list.find('tbody').empty().append(newList);
+    }
+  }
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

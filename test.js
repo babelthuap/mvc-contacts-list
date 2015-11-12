@@ -15,10 +15,6 @@ function test(cb){
 
 
 
-
-
-
-
 test(function(err, data){
   if(err){
     console.log('ERROR:', err, '\n');
@@ -29,9 +25,6 @@ test(function(err, data){
 
 
 /*
-
-seed db:
-[{"Name":"Nicholas","Email":"nicholas.babelthuap@gmail.com","Phone":"555-555-5555","Twitter":"@Babelthuap","Group":"family"},{"Name":"Benjamin","Email":"gorrel@gmail.com","Phone":"222-777-5555","Twitter":"@dragon","Group":"family"},{"Name":"Karl","Email":"dad@work.org","Phone":"111-444-8888","Twitter":"@daddio","Group":"family"}]
 
 can POST to http://localhost:3000/contacts successfully with a body of
 {
@@ -58,14 +51,8 @@ can update (PUT) with, say
     "email": "gorrel@gmail.com",
     "phone": "222-333-4444",
     "twitter": "@dragon",
-    "group": "HE'S MY BROTHER"
+    "group": "none"
   }
 }
-
-(which then has a hash of 5fa0c0dad7673a873def7c6426ed10de)
-
-
-
-
 
 */

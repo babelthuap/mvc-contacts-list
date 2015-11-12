@@ -1,7 +1,15 @@
+th:not(:last-child) {
+  cursor: pointer;
+}
+
 .edit {
   margin-right: 8px;
 }
 
 #editingForm {
   margin-left: 2em;
+}
+
+.hidden {
+  display: none;
 }

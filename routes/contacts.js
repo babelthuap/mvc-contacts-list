@@ -5,7 +5,18 @@ var router = express.Router();
 var Contacts = require('../models/contact'); // our Model
 
 
-// responds with the the array of contacts
+// responds with just the the array of contacts
+router.get('/list', function(req, res) {
+  Contacts.list(function(err, contacts) {
+    if (err) {
+      return res.status(400).send(err);
+    } else {
+      res.send(contacts);
+    }
+  });
+});
+
+// responds with the rendered page of contacts
 router.get('/', function(req, res) {
   Contacts.list(function(err, contacts) {
     if (err) {
