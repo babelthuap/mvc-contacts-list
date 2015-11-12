@@ -147,10 +147,13 @@ $(document).ready(function() {
       sortBy = $(this).text();
       let increasing = $('#caret').hasClass('fa-caret-up');
       contacts.sort((a, b) => {
-        if (a[sortBy] === b[sortBy]) { // will happen when sorting by Group
-          return a.Name > b.Name;      // -> sort by Name within each Group
+        let aKey = a[sortBy].toLowerCase(),
+            bKey = b[sortBy].toLowerCase();
+        if (aKey === bKey) { // will happen when sorting by Group
+          // sort by Name within each Group
+          return a.Name.toLowerCase() > b.Name.toLowerCase();
         } else {
-          return increasing ? a[sortBy] > b[sortBy] : a[sortBy] < b[sortBy];
+          return increasing ? aKey > bKey : aKey < bKey;
         }
       });
 

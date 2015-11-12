@@ -6,7 +6,7 @@ html(lang="en")
     link(rel="stylesheet", href="bower_components/font-awesome/css/font-awesome.min.css")
     link(href='css/style.css' rel='stylesheet')
   body
-    - var fields = ["Name", "Email", "Phone", "Twitter", "Group"]
+    - var KEYS = ["Name", "Email", "Phone", "Twitter", "Group"]
     .container
       .row
         center
@@ -24,8 +24,8 @@ html(lang="en")
         table.table.table-striped#list
           thead
             tr
-              each field in fields
-                th= field
+              each key in KEYS
+                th= key
               th Edit/Remove
           tbody
             each contact in contacts
@@ -49,10 +49,10 @@ html(lang="en")
                 span#editName
             .modal-body
               #editingForm
-                each field in fields
+                each key in KEYS
                   p
-                    em: code= (field + ' ----').slice(0, 9)
-                    input(id= 'modal' + field, size="36")
+                    em: code= (key + ' ----').slice(0, 9)
+                    input(id= 'modal' + key, size="36")
             .modal-footer
               button.btn.btn-primary#commit(type='button', data-dismiss='modal')
     script(src='bower_components/jquery/dist/jquery.min.js')

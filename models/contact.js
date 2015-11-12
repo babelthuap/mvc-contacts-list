@@ -5,10 +5,10 @@ var md5 = require('md5');
 
 var Contacts = {};
 var db = 'db/contacts.json';
+const KEYS = ["Name", "Email", "Phone", "Twitter", "Group"];
 
 function hashContact(contact) {
-  var keys = Object.keys(contact);
-  var data = keys.reduce((tot, key) => (tot + '%' + contact[key]), '');
+  var data = KEYS.reduce((tot, key) => (tot + '%' + contact[key]), '');
   return md5(data);
 }
 
