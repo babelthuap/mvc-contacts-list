@@ -28,18 +28,33 @@ html(lang="en")
             tr
               each field in fields
                 th= field
-              th
-                button.btn-danger Remove All
+              th Edit/Remove
           tbody
             each contact in contacts
               tr
                 each val in contact
                   td= val
                 td
-                  button.edit
-                    i.fa.fa-pencil-square-o
-                  button.remove
-                    i.fa.fa-times
+                  button.edit(data-toggle='modal', data-target='#myModal'): i.fa.fa-pencil-square-o
+                  button.remove: i.fa.fa-times
+      //- Modal
+      #myModal.modal.fade(role='dialog')
+        .modal-dialog
+          //- Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Edit&nbsp;
+                span#editName Nicholas
+            .modal-body
+              #editingForm
+                each field in fields
+                  p
+                    em: span= field + ': '
+                    input(id= 'modal' + field, size="30")
+            .modal-footer
+              button.btn.btn-primary#update(type='button', data-dismiss='modal') Update
     script(src='bower_components/jquery/dist/jquery.min.js')
     script(src='bower_components/blueimp-md5/js/md5.min.js')
+    script(src='bower_components/bootstrap/dist/js/bootstrap.min.js')
     script(src='js/main.js')

@@ -44,15 +44,15 @@ can POST to http://localhost:3000/contacts successfully with a body of
   }
 }
 
-the md5 hash of that contact is 46af1d9c37913b9f97c7c5b4f56f1d55
+the md5 hash of that contact is 7863141326dade91ca7084d12583c04c
 so DELETE it with
 {
-  "hash": "46af1d9c37913b9f97c7c5b4f56f1d55"
+  "hash": "7863141326dade91ca7084d12583c04c"
 }
 
 can update (PUT) with, say
 {
-  "hash": "46af1d9c37913b9f97c7c5b4f56f1d55",
+  "hash": "7863141326dade91ca7084d12583c04c",
   "contact": {
     "name": "Benjamin",
     "email": "gorrel@gmail.com",
