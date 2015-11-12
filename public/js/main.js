@@ -67,7 +67,7 @@ $(document).ready(function() {
 
 
   function edit() {
-    $('#commit').off('click');
+    $('#commit').off('click').text('Update').on('click', update);
 
     $editing = $(this).closest('tr');
     $('#editName').text( 'Edit ' + $editing.find(':first-child').text() );
@@ -77,8 +77,6 @@ $(document).ready(function() {
       let current = $editing.find(`td:nth-of-type(${i + 1})`).text();
       $(`#modal${key}`).val(current);
     });
-
-    $('#commit').on('click', update);
   }
 
 

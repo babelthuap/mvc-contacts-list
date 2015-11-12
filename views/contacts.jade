@@ -50,10 +50,10 @@ html(lang="en")
               #editingForm
                 each field in fields
                   p
-                    em: span= field + ': '
-                    input(id= 'modal' + field, size="30")
+                    em: code= (field + ' ----').slice(0, 9)
+                    input(id= 'modal' + field, size="36")
             .modal-footer
-              button.btn.btn-primary#commit(type='button', data-dismiss='modal') Update
+              button.btn.btn-primary#commit(type='button', data-dismiss='modal')
     script(src='bower_components/jquery/dist/jquery.min.js')
     script(src='bower_components/blueimp-md5/js/md5.min.js')
     script(src='bower_components/bootstrap/dist/js/bootstrap.min.js')
