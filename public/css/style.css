@@ -13,3 +13,7 @@ th:not(:last-child) {
 .hidden {
   display: none;
 }
+
+#caret {
+  margin-left: 4px;
+}
