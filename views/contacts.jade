@@ -16,11 +16,7 @@ html(lang="en")
             a(href='https://babelthuap.github.io/') Nicholas Neumann-Chun
       hr
       .row
-        center
-          p#new
-            each field in fields
-              input(id= field, placeholder= field)
-          button.btn.btn-primary#add Add New Contact
+        center: button.btn.btn-primary(data-toggle='modal', data-target='#myModal')#add Add Contact
       hr
       .row
         table.table.table-striped#list

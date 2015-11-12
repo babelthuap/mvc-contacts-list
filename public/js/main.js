@@ -6,7 +6,7 @@ $(document).ready(function() {
   let $list = $('#list');
   let $editing;
 
-  $('#add').click(add);
+  $('#add').click(getNewContact);
   $('#new input').on('keypress', e => {
     if (e.keyCode === 13) {
       add();
@@ -18,11 +18,19 @@ $(document).ready(function() {
   $list.on('click', '.edit', edit);
 
 
+  function getNewContact() {
+    $editing = undefined;
+    $('#editName').text('New Contact');
+    $('#editingForm input').val('');
+    $('#commit').off('click').text('Add').on('click', add);
+  }
+
+
   function add() {
-    if ($('#Name').val()) {
+    if ($('#modalName').val()) {
       let info = {};
       KEYS.forEach(key => {
-        info[key] = $(`input#${key}`).val();
+        info[key] = $(`#modal${key}`).val();
       });
       $('#new input').val('');
 
@@ -53,8 +61,6 @@ $(document).ready(function() {
 
   function remove() {
     let $contact = $(this).closest('tr');
-    console.log('remove!', $contact);
-    console.log('hash:', hashContact($contact));
 
     $.ajax({
       method: 'DELETE',
