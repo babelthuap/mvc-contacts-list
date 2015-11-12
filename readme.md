@@ -10,3 +10,5 @@ A contacts list -- i.e. address book -- that runs on a Node server. The user can
 - sort the contacts by any of the data categories
 
 These changes are reflected immediately in the client browser and are synced with the simple JSON database.
+
+This app is deployed [to Heroku](https://damp-dusk-2559.herokuapp.com/contacts).
